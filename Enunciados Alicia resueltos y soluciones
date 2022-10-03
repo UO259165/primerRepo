@@ -1,0 +1,43 @@
+/*Ejercicios resuletos por Alejandro y soluciones para Alicia*/
+
+/* Muestra el nombre de los jugadores,el tipo de medalla ganada y el nombre de la nacion a la que pertenece*/
+SELECT athlete_name,medal, nation
+FROM olym.olym_medals
+INNER JOIN olym.olym_athlete_games ON olym.olym_athlete_games.id = olym.olym_medals.athlete_game_id
+INNER JOIN olym.olym_nations ON olym.olym_nations.id = olym.olym_athlete_games.nation_id
+INNER JOIN olym.olym_athletes ON olym.olym_athletes.id = olym.olym_athlete_games.athlete_id;
+
+/* Muestra el numero de medallas ganadas por jugador de mayor a menor */\
+SELECT athlete_game_id,count(medal)
+FROM olym.olym_medals
+INNER JOIN olym.olym_athlete_games ON olym.olym_athlete_games.id = olym.olym_medals.athlete_game_id
+group by athlete_game_id
+order by count(medal) desc;
+
+/* Muestra los pa\'edses con menos de 100 jugadores indicando el nombre de cada pa\'eds y el numero de jugadores */
+select  athlete_game_id,nation,count(nation)
+from olym.olym_nations
+inner join olym.olym_athletes on olym.olym_nations.id=olym.olym_athletes.nation_id
+group by nation
+having count(nation<100);
+
+
+/*Soluciones para Alicia*/
+
+/*1. Muestra el género de los jugadores y el id de su deporte*/
+select distinct athlete_gender,game_id
+from olym.olym_athlete_games
+inner join olym.olym_athletes on olym.olym_athletes.id=olym.olym_athlete_games.game_id;
+
+
+/*2. Muestra el nombre, la nacionalidad y el género de los participantes. */
+select distinct athlete_name,nation,athlete_gender
+from olym.olym_athlete_games
+inner join olym.olym_athletes on olym.olym_athletes.id=olym.olym_athlete_games.athlete_id
+inner join olym.olym_nations on olym.olym_nations.id=olym.olym_athlete_games.nation_id;
+
+/*3. Muestra el id de los participantes, la medalla obtenida y su nacion*/
+select  athlete_game_id,medal,nation
+from olym.olym_athlete_games
+inner join olym.olym_medals on olym.olym_medals.id=olym.olym_athlete_games.athlete_id
+inner join olym.olym_nations on olym.olym_nations.id=olym.olym_athlete_games.nation_id;
